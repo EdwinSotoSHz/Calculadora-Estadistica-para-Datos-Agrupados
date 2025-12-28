@@ -1,0 +1,580 @@
+:root {
+    --negro-profundo: #0B0B0D;
+    --negro-sub: #1A1A1E;
+    --amarillo-ambar: #F5B52E;
+    --amarillo-suave: #FFD77A;
+    --azul-grafito: #1F2A36;
+    --azul-tecnologico: #3A5F8F;
+    --blanco-calido: #F4F4F2;
+    --gris-tecnico: #9AA3AD;
+    --transicion: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, var(--negro-profundo) 0%, var(--azul-grafito) 100%);
+    min-height: 100vh;
+    color: var(--blanco-calido);
+    font-size: 1em;
+    padding: 20px;
+    overflow-x: hidden;
+}
+
+/* Canvas animado como fondo */
+#techCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(135deg, var(--negro-profundo) 0%, var(--azul-grafito) 100%);
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    backdrop-filter: blur(3px);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Título principal */
+h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    background: linear-gradient(to right, var(--amarillo-ambar), var(--amarillo-suave));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(245, 181, 46, 0.3);
+}
+
+/* Secciones */
+.section {
+    background: rgba(31, 42, 54, 0.6);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: var(--transicion);
+}
+
+.section:hover {
+    border-color: rgba(245, 181, 46, 0.25);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(31, 42, 54, 0.7);
+}
+
+/* Etiquetas */
+.textBlue {
+    color: var(--azul-tecnologico);
+    font-weight: 600;
+    font-size: 1em;
+}
+
+.textRed {
+    color: var(--amarillo-ambar);
+    font-weight: 600;
+    font-size: 1em;
+}
+
+/* Inputs - Quitar flechas de números */
+.generalInput {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 2px solid rgba(154, 163, 173, 0.2);
+    background: rgba(26, 26, 30, 0.7);
+    color: var(--blanco-calido);
+    font-size: 1em;
+    text-align: center;
+    transition: var(--transicion);
+    width: 100%;
+    max-width: 180px;
+    min-height: 42px;
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.generalInput:focus {
+    outline: none;
+    border-color: var(--amarillo-ambar);
+    box-shadow: 0 0 0 3px rgba(245, 181, 46, 0.1);
+}
+
+/* Quitar flechas/spinners en Chrome, Safari, Edge, Opera */
+.generalInput::-webkit-outer-spin-button,
+.generalInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.inputBlue {
+    border-color: rgba(58, 95, 143, 0.4);
+}
+
+.inputRed {
+    border-color: rgba(245, 181, 46, 0.4);
+}
+
+/* Botones */
+.buttons {
+    background: linear-gradient(135deg, var(--azul-tecnologico), var(--azul-grafito));
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicion);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 0.95em;
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.buttons:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, var(--azul-grafito), var(--azul-tecnologico));
+}
+
+.buttonsB {
+    background: linear-gradient(135deg, var(--amarillo-ambar), var(--amarillo-suave));
+    color: var(--negro-profundo);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: var(--transicion);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    font-size: 1.1em;
+    width: 30%;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.buttonsB:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, var(--amarillo-suave), var(--amarillo-ambar));
+}
+
+.buttonsR {
+    background: linear-gradient(135deg, var(--azul-tecnologico), #2A4A70);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transicion);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 0.9em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.buttonsR:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #2A4A70, var(--azul-tecnologico));
+}
+
+/* Toggle switches */
+.toggleCheckbox {
+    display: none;
+}
+
+.toggleLabel {
+    display: inline-block;
+    width: 45px;
+    height: 24px;
+    background: var(--negro-sub);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    margin-left: 8px;
+    vertical-align: middle;
+    transition: var(--transicion);
+}
+
+.toggleLabel:after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: var(--gris-tecnico);
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: var(--transicion);
+}
+
+.toggleCheckbox:checked + .toggleLabel {
+    background: var(--amarillo-ambar);
+}
+
+.toggleCheckbox:checked + .toggleLabel:after {
+    left: 23px;
+    background: white;
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    background: rgba(26, 26, 30, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 0.9em;
+}
+
+th {
+    background: rgba(58, 95, 143, 0.6);
+    padding: 12px 8px;
+    text-align: center;
+    font-weight: 600;
+    color: white;
+    border-bottom: 2px solid rgba(245, 181, 46, 0.25);
+    white-space: nowrap;
+}
+
+td {
+    padding: 10px 8px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Tabla de entrada de datos - más compacta */
+#inputDataTable td,
+#tableCDP td {
+    padding: 8px 6px;
+}
+
+#inputDataTable input,
+#tableCDP input {
+    max-width: 120px;
+    margin: 0 auto;
+    padding: 8px 10px;
+}
+
+/* Tabla CDP especial */
+#tableCDP-container {
+    position: relative;
+}
+
+#tableCDP-container .buttonsR {
+    margin-top: 15px;
+    display: block;
+    width: auto;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Layout de controles */
+.control-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+#startData, #inputData, #medidasPosicion {
+    margin-bottom: 20px;
+}
+
+/* Resultados principales */
+#finalOutput {
+    background: rgba(26, 26, 30, 0.8);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border-left: 4px solid var(--amarillo-ambar);
+}
+
+#finalOutput label {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 1.1em;
+    color: var(--blanco-calido);
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    transition: var(--transicion);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+#finalOutput label:hover {
+    background: rgba(255, 255, 255, 0.07);
+    transform: translateX(5px);
+    border-color: rgba(245, 181, 46, 0.2);
+}
+
+/* Resultados de medidas de posición - ESTILO MEJORADO */
+#CDPdiv.section {
+    background: rgba(26, 34, 44, 0.7);
+    border-left: 4px solid var(--azul-tecnologico);
+    padding: 20px;
+}
+
+#CDPdiv h2 {
+    color: var(--azul-tecnologico);
+    margin-bottom: 20px;
+    font-size: 1.4em;
+}
+
+/* Contenedor para resultados de posición */
+.position-results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Grupos de resultados (Cuartiles, Deciles, Percentiles) */
+.results-group {
+    background: rgba(31, 42, 54, 0.8);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.results-group-title {
+    color: var(--amarillo-ambar);
+    font-size: 1.2em;
+    font-weight: 600;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(245, 181, 46, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Elementos individuales de resultado */
+.result-item {
+    background: rgba(26, 26, 30, 0.9);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-left: 3px solid var(--azul-tecnologico);
+    transition: var(--transicion);
+    font-size: 1.05em; /* Fuente más grande */
+}
+
+.result-item:hover {
+    background: rgba(26, 26, 30, 0.95);
+    transform: translateX(3px);
+    border-left-color: var(--amarillo-ambar);
+}
+
+.result-item .formula {
+    color: var(--amarillo-suave);
+    font-family: 'Cambria Math', 'Times New Roman', serif;
+    margin: 8px 0;
+    font-size: 1.05em; /* Fuente más grande */
+    line-height: 1.4;
+}
+
+.result-item .value {
+    color: var(--blanco-calido);
+    font-weight: 600;
+    margin-left: 10px;
+    font-size: 1.15em; /* Fuente más grande */
+}
+
+.result-item .step {
+    color: var(--gris-tecnico);
+    font-size: 0.95em;
+    margin-top: 8px;
+    padding-left: 15px;
+    border-left: 2px solid rgba(154, 163, 173, 0.3);
+    line-height: 1.4;
+}
+
+/* Estilo para las fórmulas matemáticas */
+.result-item math {
+    font-size: 1.1em;
+    font-family: 'Cambria Math', 'Times New Roman', serif;
+}
+
+.result-item mfrac {
+    font-size: 1.1em;
+}
+
+/* Mejoras para la tabla de resultados detallados */
+#outputDataTable th,
+#outputDataTable td {
+    padding: 8px 6px;
+    font-size: 0.85em;
+}
+
+/* Botón Configurar Valores - siempre visible */
+#CDPcreate {
+    margin-top: 15px;
+    float: right;
+}
+
+/* Clearfix */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.02);
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .section {
+        padding: 15px;
+    }
+    
+    .control-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .generalInput {
+        max-width: 100%;
+        width: 100%;
+    }
+    
+    table {
+        font-size: 0.8em;
+    }
+    
+    th, td {
+        padding: 6px 4px;
+    }
+    
+    #finalOutput label {
+        padding: 10px 12px;
+        font-size: 1em;
+    }
+    
+    .buttons, .buttonsR {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    #tableCDP-container .buttonsR {
+        float: none;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .result-item {
+        font-size: 1em;
+        padding: 12px;
+    }
+    
+    .results-group-title {
+        font-size: 1.1em;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--negro-sub);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--amarillo-ambar);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--amarillo-suave);
+}
+
+/* Estilos para los subtítulos */
+h2 {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilos para el contenedor de inputs dinámicos */
+.dynamic-inputs-container {
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(26, 26, 30, 0.5);
+    border-radius: 8px;
+    border: 1px dashed rgba(154, 163, 173, 0.2);
+}
+
+.dynamic-input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.dynamic-input-row label {
+    color: var(--gris-tecnico);
+    font-size: 0.9em;
+    min-width: 60px;
+}
+
+.dynamic-input-row input {
+    flex: 1;
+    max-width: 100px;
+}

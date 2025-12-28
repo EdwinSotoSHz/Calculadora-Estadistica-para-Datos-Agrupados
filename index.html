@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Estadística - Medidas de Dispersión y Posición</title>
+    <meta author="Edwin Soto">
+    <meta description="Calculadora de medidas de dispersión, la Desviación media, Desviación típica o estándar y varianza de un conjunto de datos, Los datos agrupados se especifican en Intervalos asociados a una frecuencia, puedes calcular medidas de posición (Cuartiles, deciles y Percentiles)">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="img/icon.ico" type="image/png">
+</head>
+<body>
+    <canvas id="techCanvas"></canvas>
+    
+    <div class="container">
+        <h1><i class="fas fa-chart-bar"></i> Calculadora de Medidas Estadísticas</h1>
+        
+        <!-- Sección 1: Configuración inicial -->
+        <div class="section" id="startData">
+            <h2 style="color: var(--azul-tecnologico);">
+                <i class="fas fa-cogs"></i> Configuración Inicial
+            </h2>
+            <div class="control-group">
+                <label class="textBlue">
+                    <i class="fas fa-layer-group"></i> Número de Clases (i):
+                </label>
+                <input class="generalInput inputBlue" type="number" id="classes" min="1" value="5">
+                <button class="buttons" id="start">
+                    Generar Tabla
+                </button>
+            </div>
+        </div>
+
+        <!-- Sección 2: Entrada de datos -->
+        <div class="section" id="inputData">
+            <h2 style="color: var(--azul-tecnologico);">
+                <i class="fas fa-database"></i> Entrada de Datos
+            </h2>
+            <div class="control-group">
+                <label class="textBlue">
+                    <i class="fas fa-hashtag"></i> Total de Datos (n):
+                </label>
+                <input class="generalInput inputBlue" type="number" id="nD" min="1" value="100"/>
+            </div>
+            
+            <div class="control-group">
+                <label class="textRed">
+                    <i class="fas fa-exchange-alt"></i> Intervalo Exacto
+                </label>
+                <input type="checkbox" id="toggleBtnTypeInterval" class="toggleCheckbox">
+                <label for="toggleBtnTypeInterval" class="toggleLabel"></label>
+                <span style="color: var(--gris-tecnico); font-size: 0.85em; margin-left: 10px;">
+                    Marca para usar intervalos exactos
+                </span>
+            </div>
+            
+            <div style="overflow-x: auto; margin-top: 15px;">
+                <table id="inputDataTable">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-arrow-down"></i> Límite Inferior (Li)</th>
+                            <th><i class="fas fa-arrow-up"></i> Límite Superior (Ls)</th>
+                            <th><i class="fas fa-sigma"></i> Frecuencia (f)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Se generará dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sección 3: Medidas de posición -->
+        <div class="section" id="medidasPosicion">
+            <h2 style="color: var(--amarillo-ambar);">
+                <i class="fas fa-ruler-combined"></i> Medidas de Posición
+            </h2>
+            
+            <div class="control-group">
+                <label class="textRed">
+                    <i class="fas fa-calculator"></i> Calcular Cuartiles, Deciles y Percentiles
+                </label>
+                <input type="checkbox" id="toggleBtn" class="toggleCheckbox">
+                <label for="toggleBtn" class="toggleLabel"></label>
+            </div>
+            
+            <p style="color: var(--gris-tecnico); margin: 12px 0; font-size: 0.9em;">
+                <i class="fas fa-info-circle"></i> Primero ingrese la cantidad a calcular y luego los valores (k)
+            </p>
+            
+            <div id="tableCDP-container">
+                <div style="overflow-x: auto;">
+                    <table id="tableCDP">
+                        <thead>
+                            <tr>
+                                <th style="background: rgba(245, 181, 46, 0.6);">Cuartiles (Q)</th>
+                                <th style="background: rgba(245, 181, 46, 0.6);">Deciles (D)</th>
+                                <th style="background: rgba(245, 181, 46, 0.6);">Percentiles (P)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input class="generalInput classSupp" type="number" id="Cuartiles" 
+                                           disabled value="0" placeholder="Cantidad" min="0">
+                                </td>
+                                <td>
+                                    <input class="generalInput classSupp" type="number" id="Deciles" 
+                                           disabled value="0" placeholder="Cantidad" min="0">
+                                </td>
+                                <td>
+                                    <input class="generalInput classSupp" type="number" id="Percentiles" 
+                                           disabled value="0" placeholder="Cantidad" min="0">
+                                </td>
+                            </tr>
+                            <!-- Aquí se insertarán las filas dinámicas -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="clearfix">
+                    <button class="buttonsR" id="CDPcreate">
+                        <i class="fas fa-sliders-h"></i> Configurar Valores
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón de cálculo principal -->
+        <div style="text-align: center; margin: 25px 0;">
+            <button class="buttonsB" id="calculate">
+                <i class="fas fa-calculator"></i> Calcular Todas las Medidas
+            </button>
+        </div>
+
+        <!-- Sección 4: Resultados principales -->
+        <div class="section" id="finalOutput">
+            <h2 style="color: var(--amarillo-ambar);">
+                <i class="fas fa-chart-line"></i> Resultados Principales
+            </h2>
+            
+            <label id="X">
+                <i class="fas fa-calculator"></i> <strong>Media (X̅)</strong> = 
+                <math>
+                    <mrow>
+                        <mfrac>
+                            <mrow>
+                                <mo>Σ</mo>
+                                <mo>(</mo>
+                                <mi>x</mi>
+                                <mo>*</mo>
+                                <mi>f</mi>
+                                <mo>)</mo>
+                            </mrow>
+                            <mrow>
+                                <mi>n</mi>
+                            </mrow>
+                        </mfrac>
+                    </mrow>
+                </math>
+            </label>
+            
+            <label id="DM">
+                <i class="fas fa-ruler-horizontal"></i> <strong>Desviación Media (DM)</strong> = 
+                <math>
+                    <mrow>
+                        <mfrac>
+                            <mrow>
+                                <mo>Σ</mo>
+                                <mi>f</mi>
+                                <mi>i</mi>
+                                <mo>|</mo>
+                                <mi>x</mi>
+                                <mo>-</mo>
+                                <mi>x̄</mi>
+                                <mo>|</mo>
+                            </mrow>
+                            <mrow>
+                                <mi>n</mi>
+                            </mrow>
+                        </mfrac>
+                    </mrow>
+                </math>
+            </label>
+            
+            <label id="S">
+                <i class="fas fa-square-root-alt"></i> <strong>Varianza (S²)</strong> = 
+                <math>
+                    <mrow>
+                        <mfrac>
+                            <mrow>
+                                <mo>Σ</mo>
+                                <mi>f</mi>
+                                <mi>i</mi>
+                                <mo>(</mo>
+                                <mo>|</mo>
+                                <mi>x</mi>
+                                <mo>-</mo>
+                                <mi>x̄</mi>
+                                <mo>|</mo>
+                                <mo>)</mo>
+                                <mn>²</mn>
+                            </mrow>
+                            <mrow>
+                                <mi>n</mi>
+                            </mrow>
+                        </mfrac>
+                    </mrow>
+                </math>
+            </label>
+            
+            <label id="S2">
+                <i class="fas fa-sigma"></i> <strong>Desviación Estándar (S)</strong> = 
+                <math>
+                    <mrow>
+                        <msqrt>
+                            <mfrac>
+                                <mrow>
+                                    <mo>Σ</mo>
+                                    <mi>f</mi>
+                                    <mi>i</mi>
+                                    <mo>(</mo>
+                                    <mo>|</mo>
+                                    <mi>x</mi>
+                                    <mo>-</mo>
+                                    <mi>x̄</mi>
+                                    <mo>|</mo>
+                                    <mo>)</mo>
+                                    <mn>²</mn>
+                                </mrow>
+                                <mrow>
+                                    <mi>n</mi>
+                                </mrow>
+                            </mfrac>
+                        </msqrt>
+                    </mrow>
+                </math>
+            </label>
+        </div>
+
+        <!-- Sección 5: Tabla de resultados detallados -->
+        <div class="section" id="outputDataTableDiv">
+            <h2 style="color: var(--azul-tecnologico);">
+                <i class="fas fa-table"></i> Tabla de Cálculos Detallados
+            </h2>
+            <div style="overflow-x: auto;">
+                <table id="outputDataTable">
+                    <thead>
+                        <tr>
+                            <th>Li</th>
+                            <th>Ls</th>
+                            <th>f</th>
+                            <th>F</th>
+                            <th>Mc</th>
+                            <th>x*f</th>
+                            <th>∣Xi-X̅∣</th>
+                            <th>f*(∣Xi-X̅∣)</th>
+                            <th>(∣Xi-X̅∣)²</th>
+                            <th>f * (∣Xi-X̅∣)²</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Se generará dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sección 6: Resultados de medidas de posición - ACTUALIZADA -->
+        <div class="section" id="CDPdiv">
+            <h2 style="color: var(--azul-tecnologico);">
+                <i class="fas fa-chart-pie"></i> Resultados de Medidas de Posición
+            </h2>
+            <div class="position-results-container">
+                <!-- Los resultados se generarán aquí dinámicamente -->
+                <!-- Se organizarán en grupos: Cuartiles, Deciles, Percentiles -->
+                <!-- Cada cálculo individual será un .result-item -->
+            </div>
+        </div>
+
+        <!-- Créditos -->
+        <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.08);">
+            <p style="color: var(--gris-tecnico); font-size: 0.85em;">
+                <i class="fas fa-code"></i> Desarrollado por 
+                <a href="https://github.com/EdwinSotoSHz" style="color: #66d9ef; text-decoration: none;"
+                onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">
+                    Edwin Soto</a>
+                | 
+                <i class="fas fa-calculator"></i> Calculadora Estadística
+            </p>
+            <p style="color: var(--gris-tecnico); font-size: 0.8em; margin-top: 8px;">
+                <i class="fab fa-github"></i> 
+                <a href="https://github.com/EdwinSotoSHz/Calculadora-Estadistica-para-Datos-Agrupados.git" 
+                target="_blank" 
+                style="color: var(--amarillo-suave); text-decoration: none;"
+                onmouseover="this.style.textDecoration='underline'"
+                onmouseout="this.style.textDecoration='none'">
+                    Ver código en GitHub
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/medidasDispersionPosicion.js"></script>
+    <script src="js/js-style.js"></script>
+</body>
+</html>
